@@ -169,12 +169,12 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
     - name: Move RHEL6 Package
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
     - name: Upload RPM Artifact
       uses: actions/upload-artifact@v2
       env:
@@ -182,7 +182,7 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         name: RPM Artifact
-        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
     - name: Upload RHEL6 Artifact
       uses: actions/upload-artifact@v2
       env:
@@ -190,7 +190,7 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         name: RHEL6 Artifact
-        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
     - name: Upload RPM
       uses: actions/upload-release-asset@v1
       env:
