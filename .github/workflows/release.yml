@@ -165,20 +165,25 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Compressing RPM Package
-      run: zip -qq -j -r .release/oec-rpm/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}-rpm-x86_64.zip ~/rpmbuild/RPMS/x86_64/*.rpm
-      env:
-        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
-        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload Artifacts 
+    - name: Move RPM Package
+      run: mv .release/oec-rpm/ ~/rpmbuild/RPMS/x86_64/*.rpm
+    - name: Upload RPM Artifact
       uses: actions/upload-artifact@v2
-      with:
-        name: RPM Artifacts
-        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.zip
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload 
+      with:
+        name: RPM Artifact
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+    - name: Upload RHEL6 Artifact
+      uses: actions/upload-artifact@v2
+      env:
+        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
+        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
+      with:
+        name: RHEL6 Artifact
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+    - name: Upload RPM
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -186,9 +191,20 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.zip
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.zip
-        asset_content_type: application/zip
+        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        asset_content_type: application/octet-stream
+    - name: Upload RHEL6
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
+        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
+      with:
+        upload_url: ${{ needs.setup.outputs.upload_url }}
+        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-rpm-x86_64.rpm
+        asset_content_type: application/octet-stream
   deb:
     name: DEB
     runs-on: ubuntu-latest
