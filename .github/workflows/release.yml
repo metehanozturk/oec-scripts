@@ -169,12 +169,12 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
+      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
     - name: Move RHEL6 Package
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
+      run: mv ~/rpmbuild/RPMS/x86_64/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}-1.x86_64.rpm .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
     - name: Upload RPM Artifact
       uses: actions/upload-artifact@v2
       env:
@@ -182,7 +182,7 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         name: RPM Artifact
-        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
     - name: Upload RHEL6 Artifact
       uses: actions/upload-artifact@v2
       env:
@@ -190,7 +190,7 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         name: RHEL6 Artifact
-        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
+        path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
     - name: Upload RPM
       uses: actions/upload-release-asset@v1
       env:
@@ -199,8 +199,8 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.rpm
+        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
+        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
         asset_content_type: application/octet-stream
     - name: Upload RHEL6
       uses: actions/upload-release-asset@v1
@@ -210,8 +210,8 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.rpm
+        asset_path: .release/oec-rpm/opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
+        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-rhel6-${{ env.INTEGRATION_VERSION }}.x86_64.rpm
         asset_content_type: application/octet-stream
   deb:
     name: DEB
@@ -263,7 +263,7 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Create RPM Package 
+    - name: Create Deb Package 
       working-directory: .release/
       run: |
         sed -i "s|<path_of_script>|/home/opsgenie/oec/scripts/actionExecutor.py|" oec-deb/home/opsgenie/oec/conf/config.json
@@ -283,11 +283,16 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload Artifacts 
+    - name: Move Deb Package
+      env:
+        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
+        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
+      run: mv .release/deb-package/opsgenie_${INTEGRATION_NAME}_${INTEGRATION_VERSION}_amd64.deb .release/oec-deb/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Debian Artifacts
-        path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-deb-x86_64.zip
+        name: Debian Artifact
+        path: .release/oec-deb/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
@@ -299,9 +304,9 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-deb-x86_64.zip
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-deb-x86_64.zip
-        asset_content_type: application/zip
+        asset_path: .release/oec-deb/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
+        asset_name: opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
+        asset_content_type: application/octet-stream
   win32:
     name: Windows 32
     runs-on: ubuntu-latest
