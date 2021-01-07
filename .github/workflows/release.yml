@@ -282,12 +282,12 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv .release/deb-package/*.deb .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.amd64.deb
+      run: mv .release/deb-package/*.deb .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}_${{ env.INTEGRATION_VERSION }}_amd64.deb
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
         name: Debian Artifact
-        path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.amd64.deb
+        path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}_${{ env.INTEGRATION_VERSION }}_amd64.deb
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
@@ -299,8 +299,8 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.amd64.deb
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}.amd64.deb
+        asset_path: .release/oec-deb/opsgenie-${{ env.INTEGRATION_NAME }}_${{ env.INTEGRATION_VERSION }}_amd64.deb
+        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}_${{ env.INTEGRATION_VERSION }}_amd64.deb
         asset_content_type: application/octet-stream
   win32:
     name: Windows 32
