@@ -287,7 +287,7 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      run: mv .release/deb-package/opsgenie_${INTEGRATION_NAME}_${INTEGRATION_VERSION}_amd64.deb .release/oec-deb/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
+      run: mv .release/deb-package/*.deb .release/oec-deb/opsgenie-${INTEGRATION_NAME}-${INTEGRATION_VERSION}.amd64.deb
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
