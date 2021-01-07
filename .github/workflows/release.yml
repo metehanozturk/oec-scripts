@@ -83,10 +83,10 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload Artifacts 
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Linux Artifacts
+        name: Linux Artifact
         path: .release/oec-linux/*.zip
     - name: Upload
       uses: actions/upload-release-asset@v1
@@ -353,10 +353,10 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload Artifacts 
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Win32 Artifacts
+        name: Win32 Artifact
         path: .release/oec-win32/*.zip
     - name: Upload
       uses: actions/upload-release-asset@v1
@@ -420,10 +420,10 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Upload Artifacts 
+    - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: Win64 Artifacts
+        name: Win64 Artifact
         path: .release/oec-win64/*.zip
     - name: Upload
       uses: actions/upload-release-asset@v1
