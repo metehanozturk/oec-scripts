@@ -278,6 +278,8 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
+    - name: Ls Deb Package
+      run: ls .release/deb-package/
     - name: Move Deb Package
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
