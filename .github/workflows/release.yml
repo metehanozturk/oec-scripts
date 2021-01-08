@@ -1,4 +1,4 @@
-name: Release
+name: Release ${{ github.event.inputs.integration }}
 on:
   workflow_dispatch:
     inputs:
@@ -17,15 +17,6 @@ jobs:
       integration_name: ${{  steps.gather_params.outputs.INTEGRATION_NAME }}
       integration_version: ${{  steps.gather_params.outputs.INTEGRATION_VERSION }}
     steps:
-    - name: Create Release
-      id: create_release
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.event.inputs.integration }}-OEC-${{ github.event.inputs.oec-version }}
-        release_name: Release ${{ github.event.inputs.integration }}-oec-${{ github.event.inputs.oec-version }}
-        draft: true
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Retrieve Integration Version
@@ -33,6 +24,17 @@ jobs:
       run: |
         echo ::set-output name=INTEGRATION_VERSION::$(jq -r --arg v "${{ github.event.inputs.integration }}" '.[$v]' release/oec-builder/oecScriptsVersion.json)
         echo ::set-output name=INTEGRATION_NAME::$(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}')
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_NAME }}
+        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
+      with:
+        tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/oec-${{ github.event.inputs.oec-version }}
+        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/oec-${{ github.event.inputs.oec-version }}
+        draft: true
   linux:
     name: Linux
     runs-on: ubuntu-latest
