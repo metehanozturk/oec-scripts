@@ -32,8 +32,8 @@ jobs:
         INTEGRATION_VERSION: ${{ steps.gather_params.outputs.INTEGRATION_VERSION }}
         INTEGRATION_NAME: ${{ github.event.inputs.integration }}
       with:
-        tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_OEC-${{ github.event.inputs.oec-version }}
-        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_OEC-${{ github.event.inputs.oec-version }}
+        tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_oec-${{ github.event.inputs.oec-version }}
+        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_oec-${{ github.event.inputs.oec-version }}
         draft: true
   linux:
     name: Linux
