@@ -62,7 +62,7 @@ jobs:
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-linux
     - name: Remove http script (todo remove when http version is released)
-      run: ls .release/oec-linux/
+      run: rm .release/oec-linux/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
@@ -282,8 +282,6 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-    - name: Ls Deb Package
-      run: ls .release/deb-package/
     - name: Move Deb Package
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
@@ -334,6 +332,8 @@ jobs:
       run: unzip -qq oec-win-386-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win32
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win32
+    - name: Remove http script (todo remove when http version is released)
+      run: rm .release/oec-win32/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
@@ -401,6 +401,8 @@ jobs:
       run: unzip -qq oec-win-amd64-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win64
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win64
+    - name: Remove http script (todo remove when http version is released)
+      run: rm .release/oec-win64/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
