@@ -62,7 +62,7 @@ jobs:
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-linux
     - name: Remove http script (todo remove when http version is released)
-      run: rm .release/oec-linux/scripts/http.py
+      run: rm -f .release/oec-linux/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
@@ -333,7 +333,7 @@ jobs:
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win32
     - name: Remove http script (todo remove when http version is released)
-      run: rm .release/oec-win32/scripts/http.py
+      run: rm -f .release/oec-win32/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
@@ -402,7 +402,7 @@ jobs:
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win64
     - name: Remove http script (todo remove when http version is released)
-      run: rm .release/oec-win64/scripts/http.py
+      run: rm -f .release/oec-win64/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
