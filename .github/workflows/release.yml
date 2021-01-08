@@ -61,6 +61,7 @@ jobs:
       run: unzip -qq oec-linux-amd64-${{ github.event.inputs.oec-version }}.zip -d .release/oec-linux
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-linux
+            rm .release/oec-linux/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
