@@ -29,9 +29,11 @@ jobs:
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        INTEGRATION_VERSION: $(jq -r --arg v "${{ github.event.inputs.integration }}" '.[$v]' release/oec-builder/oecScriptsVersion.json)
+        INTEGRATION_NAME: ${{ github.event.inputs.integration }}
       with:
         tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/OEC-${{ github.event.inputs.oec-version }}
-        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-oec-${{ github.event.inputs.oec-version }}
+        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/oec-${{ github.event.inputs.oec-version }}
         draft: true
   linux:
     name: Linux
