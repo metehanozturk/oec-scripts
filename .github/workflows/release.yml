@@ -24,21 +24,14 @@ jobs:
       run: |
         echo ::set-output name=INTEGRATION_VERSION::$(jq -r --arg v "${{ github.event.inputs.integration }}" '.[$v]' release/oec-builder/oecScriptsVersion.json)
         echo ::set-output name=INTEGRATION_NAME::$(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}')
-  release:
-    name: Release ${{ needs.setup.outputs.integration_name }}
-    runs-on: ubuntu-latest
-    needs: [setup]
-    steps:
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
-        INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/OEC-${{ github.event.inputs.oec-version }}
-        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}/OEC-${{ github.event.inputs.oec-version }}
+        release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-oec-${{ github.event.inputs.oec-version }}
         draft: true
   linux:
     name: Linux
