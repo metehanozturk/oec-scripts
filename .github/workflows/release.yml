@@ -62,7 +62,7 @@ jobs:
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-linux
     - name: Remove http script (todo remove when http version is released)
-      run: rm .release/oec-linux/http.py
+      run: ls .release/oec-linux/
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
