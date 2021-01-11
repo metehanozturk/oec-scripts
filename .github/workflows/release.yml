@@ -41,9 +41,8 @@ jobs:
     needs: [setup]
     if: github.ref == 'refs/heads/master'
     steps:
-    - run: echo "::set-env name=INTEGRATION_FOLDER::opsgenie-${{ env.INTEGRATION_NAME }}"
-      env:
-        INTEGRATION_NAME: ${{ github.event.inputs.integration }}
+    - env:
+        INTEGRATION_FOLDER: opsgenie-${{ github.event.inputs.integration }}
     - name: Set up Go 1.x
       uses: actions/setup-go@v2
       with:
