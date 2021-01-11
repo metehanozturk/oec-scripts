@@ -1,7 +1,7 @@
 name: Release
 env:
-  INTEGRATION_NAME: $(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}'
-  INTEGRATION_FOLDER: opsgenie-$(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}'
+  INTEGRATION_NAME: $(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}')
+  INTEGRATION_FOLDER: opsgenie-$(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}')
 on:
   workflow_dispatch:
     inputs:
