@@ -82,7 +82,7 @@ jobs:
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
     - name: Compressing Linux Package
-      run: zip -J -r .release/oec-linux/${{ env.INTEGRATION_FOLDER }}-${INTEGRATION_VERSION}-linux-amd64.zip .release/oec-linux/${{ env.INTEGRATION_FOLDER }}
+      run: zip -r .release/oec-linux/${{ env.INTEGRATION_FOLDER }}-${INTEGRATION_VERSION}-linux-amd64.zip .release/oec-linux/${{ env.INTEGRATION_FOLDER }}
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
@@ -90,7 +90,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: Linux Artifact
-        path: .release/oec-linux/${{ env.INTEGRATION_FOLDER }}/*.zip
+        path: .release/oec-linux/*.zip
     - name: Upload
       uses: actions/upload-release-asset@v1
       env:
@@ -99,7 +99,7 @@ jobs:
         INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-linux/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
+        asset_path: .release/oec-linux/${{ env.INTEGRATION_FOLDER }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
         asset_name: ${{ env.INTEGRATION_FOLDER }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
         asset_content_type: application/zip
   rpm:
