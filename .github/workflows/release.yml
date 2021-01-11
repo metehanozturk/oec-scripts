@@ -74,7 +74,7 @@ jobs:
       working-directory: .release
       if: steps.check_files.outputs.files_exists == 'true'
       run: |
-        INTEGRATION_PATH=oec-linux/${{ env.INTEGRATION_FOLDER }}
+        INTEGRATION_PATH=oec-linux/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}
         echo ${INTEGRATION_PATH}
         go get -u github.com/alexcesaro/log && \
         cd ${INTEGRATION_PATH} && \
