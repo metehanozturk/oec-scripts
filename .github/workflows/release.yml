@@ -1,5 +1,6 @@
 name: Release
 env:
+  INTEGRATION_NAME: $(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}'
   INTEGRATION_FOLDER: opsgenie-${{ github.event.inputs.integration }}
 on:
   workflow_dispatch:
@@ -16,7 +17,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       upload_url: ${{  steps.create_release.outputs.upload_url }}
-      integration_name: ${{  steps.gather_params.outputs.INTEGRATION_NAME }}
       integration_version: ${{  steps.gather_params.outputs.INTEGRATION_VERSION }}
     steps:
     - name: Check out code into the Go module directory
@@ -25,14 +25,12 @@ jobs:
       id: gather_params
       run: |
         echo ::set-output name=INTEGRATION_VERSION::$(jq -r --arg v "${{ github.event.inputs.integration }}" '.[$v]' release/oec-builder/oecScriptsVersion.json)
-        echo ::set-output name=INTEGRATION_NAME::$(echo "${{ github.event.inputs.integration }}" | awk '{print tolower($0)}')
     - name: Create ${{ github.event.inputs.integration }} Release
       id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         INTEGRATION_VERSION: ${{ steps.gather_params.outputs.INTEGRATION_VERSION }}
-        INTEGRATION_NAME: ${{ github.event.inputs.integration }}
       with:
         tag_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_oec-${{ github.event.inputs.oec-version }}
         release_name: ${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}_oec-${{ github.event.inputs.oec-version }}
@@ -74,7 +72,7 @@ jobs:
       working-directory: .release
       if: steps.check_files.outputs.files_exists == 'true'
       run: |
-        INTEGRATION_PATH=oec-linux/opsgenie-${INTEGRATION_NAME}
+        INTEGRATION_PATH=oec-linux/${{ env.INTEGRATION_FOLDER }}
         echo ${INTEGRATION_PATH}
         go get -u github.com/alexcesaro/log && \
         cd ${INTEGRATION_PATH} && \
@@ -100,7 +98,7 @@ jobs:
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
         asset_path: .release/oec-linux/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
+        asset_name: ${{ env.INTEGRATION_FOLDER }}-${{ env.INTEGRATION_VERSION }}-linux-amd64.zip
         asset_content_type: application/zip
   rpm:
     name: RPM
