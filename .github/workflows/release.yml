@@ -83,7 +83,7 @@ jobs:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
     - name: Compressing Linux Package
       run: |
-          cd .release/oec-linux/${{ env.INTEGRATION_FOLDER }}
+          cd .release/oec-linux/
           zip -r ${{ env.INTEGRATION_FOLDER }}-${INTEGRATION_VERSION}-linux-amd64.zip ./${{ env.INTEGRATION_FOLDER }}
       env:
         INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
