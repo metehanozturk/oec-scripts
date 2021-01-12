@@ -42,7 +42,7 @@ jobs:
     env:
       INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
       INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}
+      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}-${{ needs.setup.outputs.integration_version }}-linux-amd64
     if: github.ref == 'refs/heads/master'
     steps:
     - name: Set up Go 1.x
@@ -71,12 +71,12 @@ jobs:
       id: check_files
       uses: andstor/file-existence-action@v1
       with:
-        files: ".release/oec-linux/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}"
+        files: ".release/oec-linux/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}"
     - name: "Release Incomming Part"
       working-directory: .release
       if: steps.check_files.outputs.files_exists == 'true'
       run: |
-        INTEGRATION_PATH=oec-linux/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}
+        INTEGRATION_PATH=oec-linux/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}
         echo ${INTEGRATION_PATH}
         go get -u github.com/alexcesaro/log && \
         cd ${INTEGRATION_PATH} && \
@@ -273,7 +273,7 @@ jobs:
     env:
       INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
       INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}
+      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}-${{ needs.setup.outputs.integration_version }}-win-386
     if: github.ref == 'refs/heads/master'    
     steps:
     - name: Set up Go 1.x
@@ -302,12 +302,12 @@ jobs:
       id: check_files
       uses: andstor/file-existence-action@v1
       with:
-        files: ".release/oec-win32/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}"
+        files: ".release/oec-win32/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}"
     - name: "Release Incomming Part"
       working-directory: .release
       if: steps.check_files.outputs.files_exists == 'true'
       run: |
-        INTEGRATION_PATH=oec-win32/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}
+        INTEGRATION_PATH=oec-win32/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}
         echo ${INTEGRATION_PATH}
         go get -u github.com/alexcesaro/log && \
         cd ${INTEGRATION_PATH} && \
@@ -315,7 +315,7 @@ jobs:
     - name: Compressing Win32 Package
       run: |
           cd .release/oec-win32/
-          zip -r opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-386.zip ./${{ env.INTEGRATION_FOLDER }}
+          zip -r ${{ env.INTEGRATION_FOLDER }}.zip ./${{ env.INTEGRATION_FOLDER }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -327,8 +327,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-win32/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-386.zip
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-386.zip
+        asset_path: .release/oec-win32/${{ env.INTEGRATION_FOLDER }}.zip
+        asset_name: ${{ env.INTEGRATION_FOLDER }}.zip
         asset_content_type: application/zip
   win64:
     name: Windows 64
@@ -337,7 +337,7 @@ jobs:
     env:
       INTEGRATION_NAME: ${{ needs.setup.outputs.integration_name }}
       INTEGRATION_VERSION: ${{ needs.setup.outputs.integration_version }}
-      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}
+      INTEGRATION_FOLDER: opsgenie-${{ needs.setup.outputs.integration_name }}-${{ needs.setup.outputs.integration_version }}-win-amd64
     if: github.ref == 'refs/heads/master'    
     steps:
     - name: Set up Go 1.x
@@ -366,12 +366,12 @@ jobs:
       id: check_files
       uses: andstor/file-existence-action@v1
       with:
-        files: ".release/oec-win64/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}"
+        files: ".release/oec-win64/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}"
     - name: "Release Incomming Part"
       working-directory: .release
       if: steps.check_files.outputs.files_exists == 'true'
       run: |
-        INTEGRATION_PATH=oec-win64/${{ env.INTEGRATION_FOLDER }}/${{ env.INTEGRATION_FOLDER }}
+        INTEGRATION_PATH=oec-win64/${{ env.INTEGRATION_FOLDER }}/opsgenie-${{ env.INTEGRATION_NAME }}
         echo ${INTEGRATION_PATH}
         go get -u github.com/alexcesaro/log && \
         cd ${INTEGRATION_PATH} && \
@@ -379,7 +379,7 @@ jobs:
     - name: Compressing Win 64 Package
       run: |
           cd .release/oec-win64/
-          zip -r opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-amd64.zip ./${{ env.INTEGRATION_FOLDER }}
+          zip -r ${{ env.INTEGRATION_FOLDER }}.zip ./${{ env.INTEGRATION_FOLDER }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -391,6 +391,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ needs.setup.outputs.upload_url }}
-        asset_path: .release/oec-win64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-amd64.zip
-        asset_name: opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-amd64.zip
+        asset_path: .release/oec-win64/${{ env.INTEGRATION_FOLDER }}.zip
+        asset_name: ${{ env.INTEGRATION_FOLDER }}.zip
         asset_content_type: application/zip
