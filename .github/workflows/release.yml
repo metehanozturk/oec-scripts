@@ -315,7 +315,7 @@ jobs:
     - name: Compressing Win32 Package
       run: |
           cd .release/oec-win32/
-          zip -r .release/oec-win32/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-386.zip ./${{ env.INTEGRATION_FOLDER }}
+          zip -r opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-386.zip ./${{ env.INTEGRATION_FOLDER }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -379,7 +379,7 @@ jobs:
     - name: Compressing Win 64 Package
       run: |
           cd .release/oec-win64/
-          zip -r .release/oec-win64/opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-amd64.zip ./${{ env.INTEGRATION_FOLDER }}
+          zip -r opsgenie-${{ env.INTEGRATION_NAME }}-${{ env.INTEGRATION_VERSION }}-win-amd64.zip ./${{ env.INTEGRATION_FOLDER }}
     - name: Upload Artifact
       uses: actions/upload-artifact@v2
       with:
