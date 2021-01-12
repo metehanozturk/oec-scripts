@@ -284,7 +284,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Create Output Directory
-      run: mkdir -p .release/oec-win32
+      run: mkdir -p .release/oec-win32/${{ env.INTEGRATION_FOLDER }}
     - name: Download Asset
       uses: i3h/download-release-asset@v1.2.0
       with:
@@ -348,7 +348,7 @@ jobs:
     - name: Check out code into the Go module directory
       uses: actions/checkout@v2
     - name: Create Output Directory
-      run: mkdir -p .release/oec-win64
+      run: mkdir -p .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
     - name: Download Asset
       uses: i3h/download-release-asset@v1.2.0
       with:
@@ -357,11 +357,11 @@ jobs:
         tag: ${{ github.event.inputs.oec-version }}
         file: oec-win-amd64-${{ github.event.inputs.oec-version }}.zip
     - name: Extracting Win64 Package
-      run: unzip -qq oec-win-amd64-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win64
+      run: unzip -qq oec-win-amd64-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
     - name: Copy Integration Files
-      run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win64
+      run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
     - name: Remove http script (todo remove when http version is released)
-      run: rm -f .release/oec-win64/scripts/http.py
+      run: rm -f .release/oec-win64/${{ env.INTEGRATION_FOLDER }}/scripts/http.py
     - name: Check incomming part exists
       id: check_files
       uses: andstor/file-existence-action@v1
