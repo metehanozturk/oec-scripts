@@ -294,6 +294,8 @@ jobs:
         file: oec-win-386-${{ github.event.inputs.oec-version }}.zip
     - name: Extracting Win32 Package
       run: unzip -qq oec-win-386-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win32/${{ env.INTEGRATION_FOLDER }}
+    - name: Copy OEC Service Conf
+      run: cp -R release/oec-builder/oec-win32/oecService.json.example .release/oec-win32/${{ env.INTEGRATION_FOLDER }}
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win32/${{ env.INTEGRATION_FOLDER }}
     - name: Remove http script (todo remove when http version is released)
@@ -358,6 +360,8 @@ jobs:
         file: oec-win-amd64-${{ github.event.inputs.oec-version }}.zip
     - name: Extracting Win64 Package
       run: unzip -qq oec-win-amd64-${{ github.event.inputs.oec-version }}.zip -d .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
+    - name: Copy OEC Service Conf
+      run: cp -R release/oec-builder/oec-win64/oecService.json.example .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
     - name: Copy Integration Files
       run: cp -R ${{ github.event.inputs.integration }}/. .release/oec-win64/${{ env.INTEGRATION_FOLDER }}
     - name: Remove http script (todo remove when http version is released)
